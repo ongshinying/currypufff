@@ -35,5 +35,26 @@ def q2():
     r = model.generate_content(q)
     return(render_template("q2_reply.html",r=r))
 
+@app.route("/prediction_creditability",methods=["GET","POST"])
+def prediction_creditability():
+    return(render_template("prediction_creditability.html"))
+
+@app.route("/prediction_result_creditability",methods=["GET","POST"])
+def prediction_result_creditability():
+    q = float(request.form.get("q"))
+    r = (-9.34111523e-05 * q )+ 1.15201551
+    r = np.where(r>=0.5, "Creditable", "Not Creditable")
+    return(render_template("prediction_result_creditability.html", r=r))
+
+@app.route("/sentiment_analysis",methods=["GET","POST"])
+def sentiment_analysis():
+    return(render_template("sentiment_analysis.html"))
+
+@app.route("/sentiment_analysis_result",methods=["GET","POST"])
+def sentiment_analysis_result():
+    q = request.form.get("q")
+    r = textblob.TextBlob(q).sentiment
+    return(render_template("sentiment_analysis_result.html",r=r))
+
 if __name__=="__main__":
     app.run()
